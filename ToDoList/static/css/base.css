@@ -1,0 +1,22 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+/* nav {
+    display: flex;
+    text-align: center;
+    
+} */
+#app-title{
+    text-decoration: none;
+    font-size: 35px;
+    
+}
+#app-title p{
+    color: brown;
+}
+
+#user-data{
+    width: 80%;
+    text-align: center;
+}

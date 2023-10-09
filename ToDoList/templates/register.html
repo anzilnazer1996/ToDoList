@@ -1,0 +1,106 @@
+{%extends 'base.html'%} 
+{%block content%}
+<section>
+    <div class="container custom-form1 d-flex  justify-content-center align-items-center my-3">
+        <div class="card d-flex justify-content-center rounded my-3 ms-2" style="width: 50%; box-shadow: 3px 3px 12px; margin-left: 60px;">
+            <div class="text-center my-3">
+                <form action="{% url 'register'%}" method="POST" enctype="multipart/form-data" >
+                  {%csrf_token%}
+                    <label for="profile"><i class="fa-solid fa-user-plus  rounded-circle" style="font-size: 50px; color: #fff;background-color: #023e8a; padding: 25px; "></i>
+                    </label>
+                    <input type="file" id="profile" style="display: none;" name="profile_pic">
+                    <p style="font-size: 12px;">Upload Image</p>
+                    {% if msg4 %}
+                    <p style="color: red;" id="msg4">{{msg4}}</p>
+                    {% endif %}
+                    
+                    
+                      
+                      <div class="row justify-content-center align-items-center mb-3 mt-3">
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label for="name" class=" col-form-label">Name</label> 
+                                </div>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" name="name" value="{{name}}">
+                                </div>
+                            </div>
+                        </div> 
+                      </div>
+                      <div class="row justify-content-center align-items-center mb-3 mt-3">
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label for="username" class=" col-form-label">Username</label> 
+                                </div>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" name="username" value="{{username}}" >
+                                </div>
+                                {% if msg1 %}
+                                <p style="color: red;" id="msg1">{{msg1}}</p>
+                                {% endif %}
+                            </div>
+                        </div> 
+                      </div>
+                      <div class="row justify-content-center align-items-center mb-3 mt-3">
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label for="password" class=" col-form-label">Password</label> 
+                                </div>
+                                <div class="col-lg-8">
+                                    <input type="password" class="form-control" name="password" >
+                                </div>
+                            </div>
+                        </div> 
+                      </div>
+                      <div class="row justify-content-center align-items-center mb-3 mt-3">
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label for="confirmpassword" class=" col-form-label">Confirm Password</label> 
+                                </div>
+                                <div class="col-lg-8">
+                                    <input type="password" class="form-control" name="confirmpassword" >
+                                </div>
+                            </div>
+                            {% if msg3 %}
+                            <p style="color: red;" id="msg3">{{msg3}}</p>
+                            {% endif %}
+                        </div> 
+               
+                    
+                    <div class="justify-content-center">
+                      <button type="submit" class="btn my-3 btn-primary register-button">Register</button>
+
+                    </div>
+                    
+                  
+            </form>
+        
+            </div>
+           
+               
+        </div>
+
+    </div>
+</section>
+<script>
+  setTimeout(function(){
+    if ($('#msg1').length>0){
+      $('#msg1').remove();
+    }
+  },2000)
+  setTimeout(function(){
+    if ($('#msg3').length>0){
+      $('#msg3').remove();
+    }
+  },2000)
+  setTimeout(function(){
+    if ($('#msg4').length>0){
+      $('#msg4').remove();
+    }
+  },2000)
+</script>
+{%endblock%}

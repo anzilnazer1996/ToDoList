@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div  class="d-flex flex-column  align-items-center">
+ <img src="{{request.user.photo.url}}" alt="" srcset="" style="width:100px; height: 100px; border-radius: 50%;">
+ <h5 class="m-1">{{request.user.name}}</h5>
+ <h5 class="m-1">{{request.user.username}}</h5>
+</div>
+<div class="d-flex flex-row justify-content-center align-items-center">
+ 
+ <button class=" btn btn-primary p-1 m-3" data-bs-toggle="modal" data-bs-target="#addtask">Add A Task</button> 
+ {% include 'addtask.html'%}
+ <a href="" class="btn btn-danger p-1 m-3">Logout</a>    
+</div>
+<div class="container">
+    <div class="row">
+        {% for task in tasks %}
+        <div class="col-md-4 mb-4">
+            <div class="card " style="background-color: #F0F0F0;">
+                <div class="card-body">
+                    <h5 class="card-title " style="font-size: 25px;">{{ task.task_name }}</h5>
+                    <p class="card-text border bg-white p-2">{{ task.task_description }}</p>
+                    {% if task.task_priority == 'High' %}
+                    <p class="card-text"><strong>Priority:</strong> <span style="background-color: #FFB000;border-radius: 5px;padding: 2px;">{{ task.task_priority }}</span></p>
+                    {% elif task.task_priority == 'Medium' %}
+                    <p class="card-text"><strong>Priority:</strong> <span style="background-color: #E5D283;border-radius: 5px;padding: 2px;">{{ task.task_priority }}</span></p>
+                    {% else %}
+                    <p class="card-text"><strong>Priority:</strong> <span style="background-color: #B0D9B1;border-radius: 5px;padding: 2px;">{{ task.task_priority }}</span></p>
+                    {% endif %}
+                    <p class="card-text"><strong>Due Date:</strong> {{ task.task_due_date }}</p>
+                    {% if task.task_completed %}
+                        <p class="card-text text-success"><strong>Completed</strong></p>
+                    {% else %}
+                        <p class="card-text text-danger"><strong>Not Completed</strong></p>
+                    {% endif %}
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edittask_{{task.pk}}" data-task-id="{{ task.pk }}">Edit</button>
+                    <div class="modal fade" id="edittask_{{task.pk}}" data-task-id="{{ task.pk }}" tabindex="-1" aria-labelledby="exampleModalLabel_{{ task.pk }}" aria-hidden="true" role="dialog" style="--bs-modal-width:650px;--bs-modal-bg:none;--bs-modal-border-color: none;">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="container d-flex  justify-content-start align-items-center my-3">
+                              <div class="card d-flex justify-content-center rounded my-3 w-100" style="box-shadow: 3px 3px 12px; padding: 20px;">
+                                <form action="{% url 'edit_task' task.pk %}" method="POST" id="editTaskForm">
+                                    {%csrf_token%}
+                                    <div class="row justify-content-center align-items-center mb-3 mt-3">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label for="subject" class=" col-form-label">Task</label> 
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <input type="text" class="form-control" name="name" value="{{task.task_name }}" >
+                                                </div>
+                                            </div>
+                                        </div> 
+                                      </div>
+                                    <div class="row justify-content-center align-items-center mb-3 mt-3">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label for="firstname" class=" col-form-label">Description</label> 
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <textarea name="description" id="" cols="30" rows="5" >{{ task.task_description }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                      </div>
+                                     
+                                      <div class="row mb-3 justify-content-center align-items-center mt-3">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label for="priority" class="col-form-label">Priority</label>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <select class="form-control" id="task_priority" name="priority">
+                                                        <option value="Low" {% if task.task_priority == "Low" %} selected {% endif %}>Low</option>
+                                                        <option value="Medium" {% if task.task_priority == "Medium" %} selected {% endif %}>Medium</option>
+                                                        <option value="High" {% if task.task_priority == "High" %} selected {% endif %}>High</option>
+                                                    </select>
+                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="row mb-3 justify-content-center align-items-center mt-3">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label for="message" class="col-form-label">Due Date</label>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <input type="date" class="form-control" id="task_due_date" name="due_date" value="{{ task.task_due_date|date:'Y-m-d' }}">
+                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <div class="row mb-3 justify-content-center align-items-center mt-3">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label for="status" class="col-form-label">Status</label>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <select class="form-control" id="completed" name="status">
+                                                        <option value="true" {% if task.task_completed %} selected {% endif %}>Completed</option>
+                                                        <option value="false" {% if not task.task_completed %} selected {% endif %}>Not Completed</option>
+                                                    </select>
+                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <div class="row d-flex justify-content-center mt-3">
+                                        <div class="col-lg-4 text-center">
+                                            <button type="submit" class="btn my-3 p-1" style="background-color: #00a6fb; color: white;">Submit</button>
+                                        </div>               
+                                      </div>
+                                  </form>              
+                              </div>                
+                    </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletetask_{{task.pk}}" data-task-id="{{ task.pk }}">Delete</button>
+                    <div class="modal fade" id="deletetask_{{task.pk}}" data-task-id="{{ task.pk }}" tabindex="-1" aria-labelledby="exampleModalLabel_{{ task.pk }}" aria-hidden="true" role="dialog" style="--bs-modal-width:650px;--bs-modal-bg:none;--bs-modal-border-color: none;">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="container d-flex  justify-content-start align-items-center my-3">
+                              <div class="card d-flex justify-content-center rounded my-3 w-100" style="box-shadow: 3px 3px 12px; padding: 20px;">
+                                 <p>Do you really wish to delete ?</p> 
+                                 <div class="modal-footer">
+                                    <a href="{% url 'delete_task' task.pk %}" class="btn btn-danger">Yes</a>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>      
+                                  </div>
+                               </div>
+                              </div>
+                            </div> 
+                          </div> 
+                      </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+
+                    <div class="modal fade" id="addtask"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" role="dialog" style="--bs-modal-width:650px;--bs-modal-bg:none;--bs-modal-border-color: none;">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="container d-flex  justify-content-start align-items-center my-3">
+                              <div class="card d-flex justify-content-center rounded my-3 w-100" style="box-shadow: 3px 3px 12px; padding: 20px;">
+                                <form action="{% url 'add_task' %}" method="POST" id="editTaskForm">
+                                    {%csrf_token%}
+                                    <div class="row justify-content-center align-items-center mb-3 mt-3">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label for="subject" class=" col-form-label">Task</label> 
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <input type="text" class="form-control" name="name" >
+                                                </div>
+                                            </div>
+                                        </div> 
+                                      </div>
+                                    <div class="row justify-content-center align-items-center mb-3 mt-3">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label for="firstname" class=" col-form-label">Description</label> 
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <textarea name="description" id="" cols="30" rows="5" ></textarea>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                      </div>
+                                     
+                                      <div class="row mb-3 justify-content-center align-items-center mt-3">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label for="priority" class="col-form-label">Priority</label>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <select class="form-control" id="task_priority" name="priority">
+                                                        <option value="Low" >Low</option>
+                                                        <option value="Medium">Medium</option>
+                                                        <option value="High">High</option>
+                                                    </select>
+                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="row mb-3 justify-content-center align-items-center mt-3">
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <label for="message" class="col-form-label">Due Date</label>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <input type="date" class="form-control" id="task_due_date" name="due_date">
+                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="row d-flex justify-content-center mt-3">
+                                        <div class="col-lg-4 text-center">
+                                            <button type="submit" class="btn my-3 p-1" style="background-color: #00a6fb; color: white;">Submit</button>
+                                        </div>               
+                                      </div>
+                                  </form>              
+                              </div>                
+                    </div>
+                          </div>
+                        </div>
+                      </div>
