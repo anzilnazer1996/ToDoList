@@ -10,7 +10,7 @@
  
  <button class=" btn btn-primary p-1 m-3" data-bs-toggle="modal" data-bs-target="#addtask">Add A Task</button> 
  {% include 'addtask.html'%}
- <a href="" class="btn btn-danger p-1 m-3">Logout</a>    
+ <a href="{% url 'logout' %}" class="btn btn-danger p-1 m-3">Logout</a>    
 </div>
 <div class="container">
     <div class="row">
